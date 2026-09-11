@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Upload de fotos de formigueiros com medicao, historico e dashboard de escalonamento",
   "main": "server.js",
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "start": "node server.js"
   },

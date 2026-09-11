@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: site-formigas
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+    # Para os dados (fotos e banco) sobreviverem a redeploys e restarts,
+    # faca upgrade do plano acima de "free" e adicione um Disk no dashboard
+    # do Render montado em /var/data, depois descomente as linhas abaixo:
+    # disk:
+    #   name: site-formigas-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    # e defina a variavel de ambiente:
+    #   DATA_DIR=/var/data

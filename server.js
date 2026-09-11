@@ -7,11 +7,14 @@ const { nanoid } = require('nanoid');
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
-const UPLOAD_DIR = path.join(ROOT, 'uploads');
-const DB_PATH = path.join(ROOT, 'data', 'formigueiros.db');
+// DATA_DIR aponta para um disco persistente em producao (ex: /var/data no Render).
+// Sem essa variavel, usa as pastas locais do projeto (comportamento de dev).
+const DATA_DIR = process.env.DATA_DIR || ROOT;
+const UPLOAD_DIR = path.join(DATA_DIR, 'uploads');
+const DB_PATH = path.join(DATA_DIR, 'data', 'formigueiros.db');
 
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
+fs.mkdirSync(path.join(DATA_DIR, 'data'), { recursive: true });
 
 // ---------- Banco de dados ----------
 const db = new Database(DB_PATH);
