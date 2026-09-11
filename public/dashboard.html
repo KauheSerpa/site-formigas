@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Formigueiro Analytics — Dashboard</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="dot"></span> Formigueiro Analytics</div>
+  <nav class="tabs">
+    <a href="/index.html">Registrar</a>
+    <a href="/dashboard.html" class="active">Dashboard</a>
+  </nav>
+</header>
+
+<main>
+  <div id="emptyState" class="empty-state card" style="display:none;">
+    Nenhum dado ainda. Vá até <a href="/index.html">Registrar</a> e adicione formigueiros e observações.
+  </div>
+
+  <div id="dashboardContent">
+    <section>
+      <div class="stat-tiles" id="statTiles"></div>
+    </section>
+
+    <section style="margin-top:22px;" class="grid cols-2">
+      <div class="card">
+        <h3>Evolução do diâmetro por formigueiro</h3>
+        <p class="muted">Cada linha é um formigueiro; eixo X é a data da observação.</p>
+        <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Comparação — tamanho mais recente</h3>
+        <p class="muted">Diâmetro (cm) na observação mais recente de cada formigueiro.</p>
+        <div class="chart-wrap"><canvas id="compareChart"></canvas></div>
+      </div>
+    </section>
+
+    <section style="margin-top:22px;" class="grid cols-2">
+      <div class="card">
+        <h3>Distribuição de tamanhos (histograma)</h3>
+        <p class="muted">Frequência de diâmetros medidos em todas as observações.</p>
+        <div class="chart-wrap"><canvas id="histChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Taxa de crescimento por formigueiro</h3>
+        <p class="muted">cm/dia entre a primeira e a última observação com diâmetro.</p>
+        <div class="chart-wrap"><canvas id="rateChart"></canvas></div>
+      </div>
+    </section>
+
+    <section style="margin-top:22px;" class="grid cols-2">
+      <div class="card">
+        <h3>Escalonamento alométrico — Área × Nº de formigas</h3>
+        <p class="muted">Ajuste de lei de potência (área ≈ a·N<sup>b</sup>) em escala log-log.</p>
+        <div class="chart-wrap"><canvas id="scalingChart"></canvas></div>
+        <p class="muted" id="scalingFitText"></p>
+      </div>
+      <div class="card">
+        <h3>Escalonamento — Diâmetro × Volume estimado</h3>
+        <p class="muted">Volume aproximado por geometria cônica (requer altura informada).</p>
+        <div class="chart-wrap"><canvas id="volumeChart"></canvas></div>
+        <p class="muted" id="volumeFitText"></p>
+      </div>
+    </section>
+
+    <section style="margin-top:22px;" class="card">
+      <h3>Ranking de formigueiros</h3>
+      <div id="rankingTableWrap"></div>
+    </section>
+  </div>
+</main>
+
+<script src="/js/vendor/chart.umd.min.js"></script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

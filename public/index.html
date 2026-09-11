@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Formigueiro Analytics — Registro</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="dot"></span> Formigueiro Analytics</div>
+  <nav class="tabs">
+    <a href="/index.html" class="active">Registrar</a>
+    <a href="/dashboard.html">Dashboard</a>
+  </nav>
+</header>
+
+<main>
+  <div class="grid cols-2" style="grid-template-columns: 320px 1fr;">
+    <!-- Coluna esquerda: colonias -->
+    <div class="grid" style="align-content:start; gap:18px;">
+      <div class="card">
+        <h3>Novo formigueiro</h3>
+        <form id="colonyForm">
+          <label>Nome / identificador *</label>
+          <input type="text" id="c_name" placeholder="Ex: Formigueiro Fundo do Quintal" required />
+          <label>Espécie (opcional)</label>
+          <input type="text" id="c_species" placeholder="Ex: Atta sexdens" />
+          <label>Local (opcional)</label>
+          <input type="text" id="c_location" placeholder="Ex: Jardim, canteiro norte" />
+          <label>Notas (opcional)</label>
+          <textarea id="c_notes" rows="2" placeholder="Observações gerais"></textarea>
+          <div class="row" style="margin-top:12px;">
+            <button type="submit">Criar formigueiro</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Formigueiros cadastrados</h3>
+        <div id="colonyList" class="colony-list">
+          <div class="empty-state">Nenhum formigueiro ainda.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna direita: upload + medicao -->
+    <div class="grid" style="align-content:start; gap:18px;">
+      <div class="card" id="selectedColonyCard" style="display:none;">
+        <div class="row">
+          <h2 id="selectedColonyName" style="margin:0;"></h2>
+          <span class="spacer"></span>
+          <button class="danger" id="deleteColonyBtn">Excluir formigueiro</button>
+        </div>
+        <p class="muted" id="selectedColonyMeta"></p>
+      </div>
+
+      <div class="card" id="uploadCard" style="display:none;">
+        <h3>Nova observação — medição</h3>
+        <div class="row wrap" style="margin-bottom:10px;">
+          <input type="file" id="imageInput" accept="image/*" />
+        </div>
+
+        <div class="grid cols-2" style="grid-template-columns: 1fr 260px; align-items:start;">
+          <div>
+            <canvas id="measureCanvas" class="measure-canvas"></canvas>
+            <p class="muted" id="canvasHint">Carregue uma imagem do formigueiro para começar a medição.</p>
+          </div>
+
+          <div>
+            <div class="step-list" id="stepList">
+              <div class="step" data-step="calibrate">1. Calibrar escala (2 cliques num objeto conhecido)</div>
+              <div class="step" data-step="diameter">2. Medir diâmetro (2 cliques nas bordas do monte)</div>
+              <div class="step" data-step="area">3. Medir área — opcional (clique o contorno, depois "Fechar polígono")</div>
+            </div>
+
+            <div class="row wrap" style="margin-top:10px;">
+              <button type="button" class="secondary" id="btnCalibrate">Calibrar escala</button>
+              <button type="button" class="secondary" id="btnDiameter">Medir diâmetro</button>
+            </div>
+            <div class="row wrap" style="margin-top:6px;">
+              <button type="button" class="secondary" id="btnArea">Medir área</button>
+              <button type="button" class="secondary" id="btnCloseArea">Fechar polígono</button>
+            </div>
+            <div class="row wrap" style="margin-top:6px;">
+              <button type="button" class="secondary" id="btnUndo">Desfazer ponto</button>
+              <button type="button" class="secondary" id="btnResetMeasure">Limpar medição</button>
+            </div>
+
+            <label>Comprimento real da referência (cm) *</label>
+            <input type="number" step="0.01" min="0.01" id="refLengthCm" placeholder="Ex: 2.5 (moeda), 30 (régua)" />
+            <p class="muted" id="calibReadout">Escala: —</p>
+
+            <p class="muted" id="diameterReadout">Diâmetro medido: —</p>
+            <p class="muted" id="areaReadout">Área medida (polígono): —</p>
+          </div>
+        </div>
+
+        <div class="grid cols-3" style="margin-top:16px;">
+          <div>
+            <label>Altura estimada do monte (cm, opcional)</label>
+            <input type="number" step="0.1" id="heightCm" />
+          </div>
+          <div>
+            <label>Nº de formigas visíveis (opcional)</label>
+            <input type="number" step="1" id="antCount" />
+          </div>
+          <div>
+            <label>Nº de entradas/aberturas (opcional)</label>
+            <input type="number" step="1" id="entranceCount" />
+          </div>
+        </div>
+        <div class="grid cols-2" style="margin-top:8px;">
+          <div>
+            <label>Data da observação</label>
+            <input type="date" id="observedAt" />
+          </div>
+          <div>
+            <label>Notas (opcional)</label>
+            <input type="text" id="obsNotes" placeholder="Clima, atividade, etc." />
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:16px;">
+          <button id="btnSaveObservation">Salvar observação</button>
+          <span class="spacer"></span>
+          <span class="muted" id="saveHint"></span>
+        </div>
+      </div>
+
+      <div class="card" id="historyCard" style="display:none;">
+        <h3>Histórico de observações</h3>
+        <div id="historyTableWrap"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
